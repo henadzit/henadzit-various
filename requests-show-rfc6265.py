@@ -10,8 +10,9 @@ echo "127.0.0.1       test.com
 """
 
 import BaseHTTPServer
-import requests
+import sys
 import threading
+import requests
 
 
 # http server
@@ -42,5 +43,17 @@ server_thread = threading.Thread(target=server_callback)
 server_thread.daemon = True
 server_thread.start()
 
-# http client
+# http clients
+print "Client: curl"
+import subprocess
+subprocess.call(['curl', '-L', 'http://test.com:8000'])
+
+print "\nClient: requests"
 requests.get('http://test.com:8000')
+
+print "\nClient: wget"
+import subprocess
+subprocess.call(['wget', '-q', 'http://test.com:8000'])
+
+print "\nClient: Ruby httpclient"
+subprocess.call(['ruby', 'requests-show-rfc6265-httpclient.rb'])
